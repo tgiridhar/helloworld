@@ -3,20 +3,72 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Auto Play Video</title>
+    <title>Auto Play Video with Audio</title>
     <!-- Include Tailwind CSS via CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      /* Container to position the play button over the video */
+      .video-container {
+        position: relative;
+      }
+      /* Style for the play button */
+      .play-button {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 10;
+        background-color: rgba(0, 0, 0, 0.5);
+        color: white;
+        border: none;
+        padding: 1rem 2rem;
+        font-size: 1.5rem;
+        border-radius: 0.5rem;
+        cursor: pointer;
+        display: none; /* Initially hidden */
+      }
+    </style>
   </head>
   <body class="bg-gray-100 flex items-center justify-center min-h-screen">
-    <!-- Auto-playing video element -->
-    <video
-      class="w-full max-w-3xl rounded shadow-lg"
-      autoplay
-      loop
-      playsinline
-    >
-      <source src="video.mp4" type="video/mp4" />
-      Your browser does not support the video tag.
-    </video>
+    <div class="video-container">
+      <!-- Play button (shown if autoplay fails) -->
+      <button id="playButton" class="play-button">Play Video</button>
+      <!-- Video element without the muted attribute -->
+      <video
+        id="myVideo"
+        class="w-full max-w-3xl rounded shadow-lg"
+        loop
+        playsinline
+      >
+        <source src="video.mp4" type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
+    </div>
+    <script>
+      const video = document.getElementById('myVideo');
+      const playButton = document.getElementById('playButton');
+
+      // Attempt to auto play on page load
+      document.addEventListener("DOMContentLoaded", function() {
+        video.play().then(() => {
+          // Autoplay succeeded, keep the play button hidden
+          playButton.style.display = 'none';
+          console.log("Auto play succeeded");
+        }).catch((error) => {
+          // Autoplay failed (likely due to audio restrictions), so show the play button
+          playButton.style.display = 'block';
+          console.log("Auto play failed, show play button:", error);
+        });
+      });
+
+      // When the play button is clicked, start video playback manually
+      playButton.addEventListener('click', function() {
+        video.play().then(() => {
+          playButton.style.display = 'none';
+        }).catch((error) => {
+          console.error("Error attempting to play the video:", error);
+        });
+      });
+    </script>
   </body>
 </html>
