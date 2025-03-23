@@ -11,15 +11,28 @@
   </head>
   <body>
     <a-scene embedded arjs="sourceType: webcam;">
-      <!-- Define a marker (using the preset "hiro") -->
+      <!-- Show the Hiro marker to see the video plane -->
       <a-marker preset="hiro">
-        <!-- The a-video element maps your pitch video onto a plane -->
-        <a-video src="#pitchVideo" width="1" height="0.75" position="0 0 0"></a-video>
+        <a-video 
+          src="#pitchVideo" 
+          width="1" 
+          height="0.75" 
+          position="0 0 0">
+        </a-video>
       </a-marker>
+      
       <a-assets>
-        <!-- Ensure "pitch_video.mp4" is hosted alongside this file or via a URL -->
-        <video id="pitchVideo" autoplay loop="true" src="video.mp4" crossorigin="anonymous"></video>
+        <video
+          id="pitchVideo"
+          src="video.mp4"
+          autoplay
+          loop
+          muted
+          playsinline
+          crossorigin="anonymous"
+        ></video>
       </a-assets>
+      
       <a-entity camera></a-entity>
     </a-scene>
   </body>
